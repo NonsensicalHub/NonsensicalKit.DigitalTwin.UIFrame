@@ -1,0 +1,5 @@
+:root {
+	--base-padding: 13px;
+	--base-margin: 13px;
+	--base-row-height: calc((100vh - 2 * var(--base-padding)) / 2);
+}

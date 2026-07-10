@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="transparent" content="true">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>数据统计</title>
+		<!-- 引入Vue3 -->
+		<script src="../js/libs/vue.global.js"></script>
+		<!-- 引入element-plus样式文件 -->
+		<link rel="stylesheet" href="../css/element-plus.css" />
+		<!-- 引入element-plus组件库 -->
+		<script src="../js/libs/element-plus.js"></script>
+		<!-- 引入axios -->
+		<script src="../js/libs/axios.min.js"></script>
+		<!-- 引入echart -->
+		<script src="../js/libs/echarts-min.js"></script>
+		<!-- 引入utils函数 -->
+		<script src="../js/utils/axios.js"></script>
+		<script src="../js/utils/date.js"></script>
+		<script src="../js/utils/chart.js"></script>
+		<!-- 引入hooks函数 -->
+		<script src="../js/hooks/index.js"></script>
+		<!-- 引入vue组件 切换成模块导入 -->
+		<!-- <script type="module" src="../componts/ModuleA.js"></script>
+		<script type="module" src="../componts/ModuleB.js"></script>
+		<script type="module" src="../componts/Chart.js"></script> -->
+		<style>
+			body,
+			html,
+			div,
+			p {
+				padding: 0;
+				margin: 0;
+				/* font-family: ABC; */
+			}
+			#app {
+				background-color: #061733;
+				padding: 13px 13px;
+				background-image: url('../img/bg-a.png');
+				background-size: 100% 100%; /* 使背景图片覆盖整个区域 */
+				background-position: center; /* 居中显示背景图片 */
+				background-repeat: no-repeat; /* 不重复背景图片 */
+				/* background-color: 'transparent'; */
+			}
+			.content {
+				/* 高度为视口高度 */
+				min-height: calc(100vh - 26px);
+				.row-height {
+					height: calc((100vh - 26px) / 3);
+					margin-left: 5px !important;
+					margin-right: 5px !important;
+				}
+				.model {
+					background-image: url('../img/moudel-bg.png');
+					background-size: 100% 100%; /* 使背景图片覆盖整个区域 */
+					background-position: center; /* 居中显示背景图片 */
+					background-repeat: no-repeat; /* 不重复背景图片 */
+					.model-header {
+						display: flex;
+						.header-left {
+							width: 60%;
+							background-image: url('../img/title-bgA.png');
+							background-size: 100% 100%; /* 使背景图片覆盖整个区域 */
+							background-position: center; /* 居中显示背景图片 */
+							background-repeat: no-repeat; /* 不重复背景图片 */
+							height: 30px; /* 高度为视口高度 */
+
+							p {
+								height: 24px;
+								font-weight: bold;
+								margin-left: 15px;
+								font-size: 18px;
+								line-height: 24px;
+								background: linear-gradient(90deg, #ffffff 0%, #92b6ff 100%); /* 渐变颜色 */
+								-webkit-background-clip: text; /* 仅对文本应用背景 */
+								background-clip: text; /* 兼容性定义 */
+								-webkit-text-fill-color: transparent; /* 使文本填充透明 */
+							}
+						}
+						.header-right {
+							width: 50%;
+							height: 30px;
+							text-align: end;
+							padding-right: 16px;
+							.btns {
+								border: none;
+								cursor: pointer;
+								background-color: #0d2455;
+								color: #3095f3;
+								border: 1px solid;
+								padding: 2px;
+							}
+						}
+					}
+					.model-content {
+						/* height: calc((100vh - 26px) / 3 - 40px); */
+						.chart {
+							height: calc((100vh - 26px) / 3 - 40px);
+						}
+						.contentStyle {
+							height: 60px;
+							/* width: 100%; */
+							background-color: #ffffff;
+						}
+						.chartIstyle {
+							height: calc((100vh - 26px) / 3 - 105px);
+						}
+						.statistic {
+							/* display: flex; */
+							/* justify-content: space-between; */
+							background-color: #3c4e9128;
+							margin: 3px;
+
+							font-size: 10px;
+							.el-statistic__head {
+								color: #d3e7ffb5;
+							}
+							.el-statistic__head::before {
+								/* 随机添加有颜色的圆点 */
+								content: '';
+								display: inline-block;
+								width: 3px;
+								height: 3px;
+								background-color: #ffffff;
+								border-radius: 50%;
+								vertical-align: middle;
+								margin-left: 3px;
+								margin-right: 3px;
+							}
+							.el-statistic__number {
+								color: #ffffff;
+								font-weight: 700;
+								font-size: 14px;
+								margin-left: 9px;
+							}
+						}
+					}
+				}
+				/* 外边距设置 */
+				.m-t-5 {
+					margin-top: 5px;
+				}
+			}
+
+			/* 内边距设置 */
+			.button {
+				border: none;
+				cursor: pointer;
+				background-color: #0d2455;
+				color: #3095f3;
+			}
+			.button.active {
+				background-color: #409ef7; /* 激活状态的背景颜色 */
+				color: #ffffff; /* 激活状态的文字颜色 */
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="content">
+				<el-row :gutter="16" class="row-height">
+					<el-col :span="8">
+						<module-a title="设备综合故障强度率" name="chartA" />
+					</el-col>
+					<el-col :span="8">
+						<module-a title="设备MTBF指标" name="chartB" />
+					</el-col>
+					<el-col :span="8">
+						<module-a title="设备MTTR指标" name="chartC" />
+					</el-col>
+				</el-row>
+				<el-row :gutter="16" class="row-height">
+					<el-col :span="8">
+						<module-a title="故障次数/时长统计" name="chartD" />
+					</el-col>
+					<el-col :span="8">
+						<module-a
+							title="设备故障分类"
+							name="chartE"
+							:show-type="false"
+							:other-button="true" />
+					</el-col>
+					<el-col :span="8">
+						<module-a title="能耗数据" name="chartF" />
+					</el-col>
+				</el-row>
+				<el-row :gutter="16" class="row-height">
+					<el-col :span="6">
+						<module-a title="实时货位信息" :show-type="false" name="chartG" />
+					</el-col>
+					<el-col :span="6">
+						<module-a title="仓库作业效率" name="chartH" :show-type="false" />
+					</el-col>
+					<el-col :span="6">
+						<module-a title="近一期工作量" :show-type="false" :customcontent="true">
+							<template #content>
+								<module-b :span="6" :obj="obj"></module-b>
+								<Chart name="chartI" class="chartIstyle"></Chart>
+							</template>
+						</module-a>
+					</el-col>
+					<el-col :span="6">
+						<module-a title="设备作业量" :customcontent="true" :buttons="['日', '周', '月']">
+							<template #content="{ activeButton }">
+								<div>
+									<el-row>
+										<el-col :span="8">
+											<Chart name="chartJ" :active-button="activeButton"></Chart>
+										</el-col>
+										<el-col :span="8">
+											<Chart name="chartK" :active-button="activeButton"></Chart>
+										</el-col>
+										<el-col :span="8">
+											<Chart name="chartL" :active-button="activeButton"></Chart>
+										</el-col>
+									</el-row>
+								</div>
+							</template>
+						</module-a>
+					</el-col>
+				</el-row>
+			</div>
+		</div>
+
+		<script>
+			// import { ModuleA } from '../componts/ModuleA.js'
+			// import { ModuleB } from '../componts/ModuleB.js'
+			// import { Chart } from '../componts/Chart.js'
+			const ModuleA = {
+				props: {
+					title: {
+						type: String,
+						required: true,
+					},
+					showType: {
+						type: Boolean,
+						default: true,
+					},
+					otherButton: {
+						type: Boolean,
+						default: false,
+					},
+					buttons: {
+						type: Array,
+						default: () => ['日', '月', '年'],
+					},
+					name: {
+						type: String,
+						default: '',
+					},
+					customcontent: {
+						type: Boolean,
+						default: false,
+					},
+				},
+				setup(props) {
+					console.log('showType:', props.showType) // 添加调试信息
+
+					const { createApp, ref, nextTick, onMounted, onBeforeUnmount, computed, watch } = Vue
+					const chartRef = ref(null)
+					const activeButton = ref('days')
+					const dataType = ['days', 'months', 'years']
+					const cycleType = {
+						日: 'days',
+						周: 'weeks',
+						月: 'months',
+						年: 'years',
+					}
+					const dialogVisible = ref(false)
+					const dimension = ref('days') // day/month/year
+					const tempDate = ref(new Date().toISOString().slice(0, 10)) // 临时存储选择的日期
+					const selectedDateText = ref(`日期: ${tempDate.value}`) // 显示选择的日期文本
+					const dateFormat = ref('YYYY-MM-DD')
+					// 添加定时器引用变量
+					const timerRef = ref(null)
+					const datePickerType = computed(() => {
+						if (dimension.value === 'days') {
+							// dateFormat.value = 'YYYY-MM-DD'
+							return 'date'
+						}
+						if (dimension.value === 'months') {
+							// dateFormat.value = 'YYYY-MM-DD'
+							return 'month'
+						}
+						if (dimension.value === 'years') {
+							// dateFormat.value = 'YYYY-MM-DD'
+							return 'year'
+						}
+
+						return 'date'
+					})
+					// 打开弹窗
+					const openDialog = () => {
+						dialogVisible.value = true
+					}
+					const disabledDate = (date) => {
+						return date > new Date()
+					}
+					// 使用 watch 监听 dimension 的变化
+					watch(dimension, (newVal, oldVal) => {
+						tempDate.value = '' // 每次切换维度时，清空已选择的日期
+					})
+					// 确认选择
+					const confirmDate = () => {
+						if (!tempDate.value) return
+						// 显示格式处理
+						if (dimension.value === 'days') {
+							selectedDateText.value = `日期: ${tempDate.value}`
+						} else if (dimension.value === 'months') {
+							selectedDateText.value = `月份: ${tempDate.value.slice(0, 7)}`
+						} else if (dimension.value === 'years') {
+							selectedDateText.value = `年份: ${tempDate.value.slice(0, 4)}`
+						}
+						initChart(dimension.value)
+						dialogVisible.value = false
+					}
+					const setActive = (btn) => {
+						activeButton.value = cycleType[btn]
+						// 根据 index 初始化不同的图表数据
+						nextTick(() => {
+							initChart(cycleType[btn])
+						})
+					}
+					// 使用 watch 监听 dimension 的变化
+					// watch(dimension, (newVal, oldVal) => {
+					// 	console.log(`dimension changed from ${oldVal} to ${newVal}`)
+					// 	// 根据 dimension 变化可以执行其他操作，例如重新初始化图表
+					// })
+					if (typeof props.charttype !== 'string') {
+						console.warn('chartType should be a string, defaulting to "line"')
+						props.charttype = 'line'
+					}
+					const initChart = async (dataType) => {
+						// 确保 DOM 元素存在
+						if (!chartRef.value) {
+							console.warn('Chart container not found')
+							return
+						}
+						let myChartA = echarts.init(chartRef.value)
+						myChartA.clear()
+						myChartA.setOption(
+							await getChartOption(
+								props.name,
+								dataType,
+								props.otherButton ? tempDate.value : null
+							),
+							true
+						)
+					}
+					onMounted(() => {
+						if (props.name) {
+							initChart(dataType[0])
+						}
+						timerRef.value = setInterval(() => {
+							initChart(activeButton.value)
+						}, 1000 * 60 * 60)
+					})
+
+					onBeforeUnmount(() => {
+						// 清除定时器
+						if (timerRef.value) {
+							clearInterval(timerRef.value)
+							timerRef.value = null
+						}
+					})
+
+					return {
+						openDialog,
+						chartRef,
+						activeButton,
+						setActive,
+						dialogVisible,
+						tempDate,
+						dimension,
+						datePickerType,
+						selectedDateText,
+						disabledDate,
+						confirmDate,
+						dateFormat,
+						cycleType,
+					}
+				},
+				template: `
+        <div class="model m-t-5">
+            <!-- model的头部 -->
+            <div class="model-header">
+                <div class="header-left">
+                    <p>{{ title }}</p>
+                </div>
+               
+                <div class="header-right">
+                 <slot name="header-right"></slot>
+                 <slot v-if="showType">
+                    <el-button-group class="btns">
+                        <el-button
+                            v-for="(button, index) in buttons"
+                            :key="index"
+                            size="small"
+                            :class="['button', { active: activeButton === cycleType[button] }]"
+                            @click="setActive(button)">
+                           {{button}}
+                        </el-button>
+                    </el-button-group>
+                 </slot>
+                 <slot v-if="otherButton">
+                    <div style="color:#fff;font-size:12px">{{selectedDateText}}
+    <el-button @click="openDialog" type="primary" size="small">
+      选择日期
+    </el-button>
+      </div>
+    <el-dialog v-model="dialogVisible" title="选择日期" width="30%">
+      <el-form label-width="80px">
+        <el-form-item label="选择维度">
+          <el-radio-group v-model="dimension">
+            <el-radio label="days">按日</el-radio>
+            <el-radio label="months">按月</el-radio>
+            <el-radio label="years">按年</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="选择日期">
+          <el-date-picker
+            v-model="tempDate"
+            :type="datePickerType"
+            placeholder="请选择日期"
+            :value-format="dateFormat"
+            :format="dateFormat"
+            :clearable="false"
+            :disabledDate="disabledDate"
+          />
+        </el-form-item>
+      </el-form>
+
+      <template #footer>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmDate">确认</el-button>
+      </template>
+    </el-dialog>
+
+                    </slot>
+                    
+                </div>
+            </div>
+            <!-- model的内容部分-->
+            <div class="model-content m-t-5">
+                <slot v-if='customcontent' name="content" :activeButton="activeButton"></slot>
+                <div v-else class="chart" ref=chartRef></div>
+            </div>
+        </div>
+    `,
+			}
+
+			const ModuleB = {
+				props: {
+					obj: {
+						type: Array,
+						default() {
+							return [
+								{
+									title: '累计入库托盘数',
+									value: 0,
+								},
+								{
+									title: '累计出库托盘数',
+									value: 0,
+								},
+								{
+									title: '累计入库库存数',
+									value: 0,
+								},
+								{
+									title: '累计出库库存数',
+									value: 0,
+								},
+							]
+						},
+					},
+					span: {
+						type: Number,
+						default: 6,
+					},
+				},
+				setup(props) {
+					onMounted(() => {
+						if (props.name) {
+							initChart(dataType[0])
+						}
+					})
+
+					onBeforeUnmount(() => {
+						// 清理资源
+					})
+
+					return {}
+				},
+				template: `<el-row>
+                    <el-col :span="span" v-for="(item, index) in obj" :key="index">
+                        <el-statistic class='statistic' :title="item.title" :value="item.value" />
+                    </el-col>
+                </el-row>`,
+			}
+
+			const Chart = {
+				props: {
+					name: {
+						type: String,
+						default: 'chartA',
+					},
+					activeButton: {
+						type: String,
+						default: 'days',
+					},
+				},
+				setup(props) {
+					const { watch } = Vue
+					const chartRef = ref(null)
+					// 添加定时器引用变量
+					const timerRef = ref(null)
+					// const dataType = ['days', 'months', 'years']
+					const initChart = async (dataType) => {
+						// 确保 DOM 元素存在
+						if (!chartRef.value) {
+							console.warn('Chart container not found')
+							return
+						}
+						let myChartA = echarts.init(chartRef.value)
+						myChartA.clear()
+						myChartA.setOption(await getChartOption(props.name, props.activeButton), true)
+					}
+					watch(
+						() => props.activeButton,
+						(newValue, oldValue) => {
+							if (newValue !== oldValue) {
+								initChart(newValue)
+							}
+						}
+					)
+					onMounted(() => {
+						initChart(props.activeButton)
+						timerRef.value = setInterval(() => {
+							initChart(props.activeButton)
+						}, 1000 * 60 * 60)
+					})
+
+					onBeforeUnmount(() => {
+						// 清除定时器
+						if (timerRef.value) {
+							clearInterval(timerRef.value)
+							timerRef.value = null
+						}
+					})
+
+					return {
+						chartRef,
+					}
+				},
+				template: `
+        <div class="chart" ref=chartRef></div>
+    `,
+			}
+			const { createApp, ref, onMounted, onBeforeUnmount } = Vue
+			createApp({
+				components: {
+					ModuleA: ModuleA,
+					ModuleB: ModuleB,
+					Chart: Chart,
+				},
+				created() {},
+				mounted() {
+					this.initEchart()
+					this.getBlonkIData()
+					this.timerRef = setInterval(() => {
+						this.getBlonkIData()
+					}, 1000 * 60 * 60)
+					const handleResize = () => {
+						console.log('窗口大小改变，重新加载页面')
+						location.reload() // 重新加载页面
+					}
+					window.addEventListener('resize', handleResize)
+				},
+				beforeUnmount() {
+					const handleResize = () => {
+						console.log('窗口大小改变，重新加载页面')
+						location.reload() // 重新加载页面
+					}
+					// 清除定时器
+					if (this.timerRef.value) {
+						clearInterval(this.timerRef.value)
+						this.timerRef.value = null
+					}
+					window.removeEventListener('resize', handleResize)
+				},
+				data() {
+					return {
+						obj: [
+							{
+								title: '累计入库托盘数',
+								value: 0,
+							},
+							{
+								title: '累计出库托盘数',
+								value: 0,
+							},
+							{
+								title: '累计入库库存数',
+								value: 0,
+							},
+							{
+								title: '累计出库库存数',
+								value: 0,
+							},
+						],
+						timerRef: null,
+					}
+				},
+				methods: {
+					initEchart() {},
+					async getBlonkIData() {
+						const wms_api_1 = `http://172.22.189.1/admin-api/wms/api/weekly-workload`
+						const chartData = await getApiData(wms_api_1)
+						this.obj[0].value =
+							chartData.data.dailyData[0].cumulativeInPallets +
+							chartData.data.dailyData[0].inPallets
+						this.obj[1].value =
+							chartData.data.dailyData[0].cumulativeOutPallets +
+							chartData.data.dailyData[0].outPallets
+						this.obj[2].value =
+							chartData.data.dailyData[0].cumulativeInStock +
+							chartData.data.dailyData[0].inStock
+						this.obj[3].value =
+							chartData.data.dailyData[0].cumulativeOutStock +
+							chartData.data.dailyData[0].outStock
+						// chartData.data.dailyData.forEach((item) => {
+
+						// })
+					},
+				},
+				// 全部引入ElementPlus
+			})
+				.use(ElementPlus)
+				.mount('#app')
+		</script>
+	</body>
+</html>

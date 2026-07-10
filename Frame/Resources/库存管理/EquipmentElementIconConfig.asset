@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298738e26593423499436b73de189cd2, type: 3}
+  m_Name: EquipmentElementIconConfig
+  m_EditorClassIdentifier: 
+  data:
+    ConfigID: ID35d313c2
+    Icons:
+    - Name: "\u56DB\u5411\u7A7F\u68AD\u8F66"
+      Count: 5
+      PrefixID: AB
+      Sprite: {fileID: 21300000, guid: dde65c86d13d2b74f87b5ef7c9cd193c, type: 3}
+      Type: "\u56DB\u5411\u7A7F\u68AD\u8F66"
+      CustomID: 1
+      CustomIDStrings:
+      - AB1001
+      - AB1002
+      - AB1003
+      m_SpritePath: 
+    - Name: "\u53CC\u5411\u7A7F\u68AD\u8F66"
+      Count: 5
+      PrefixID: AC
+      Sprite: {fileID: 21300000, guid: dde65c86d13d2b74f87b5ef7c9cd193c, type: 3}
+      Type: "\u53CC\u5411\u7A7F\u68AD\u8F66"
+      CustomID: 0
+      CustomIDStrings: []
+      m_SpritePath: "Thumbnails/\u7A7F\u68AD\u8F66"
+    - Name: "\u7A7F\u68AD\u8F66\u63D0\u5347\u673A"
+      Count: 5
+      PrefixID: AD
+      Sprite: {fileID: 21300000, guid: 6bc4073a4be1efc41b844bef271e0731, type: 3}
+      Type: "\u7A7F\u68AD\u8F66\u63D0\u5347\u673A"
+      CustomID: 0
+      CustomIDStrings: []
+      m_SpritePath: "Thumbnails/\u5C0F\u8F66\u63D0\u5347\u673A"
+    - Name: "\u8D27\u7269\u63D0\u5347\u673A"
+      Count: 5
+      PrefixID: AE
+      Sprite: {fileID: 21300000, guid: 00de63b1abc4e534a8914fcc8ab128ad, type: 3}
+      Type: "\u8D27\u7269\u63D0\u5347\u673A"
+      CustomID: 0
+      CustomIDStrings: []
+      m_SpritePath: "Thumbnails/\u8D27\u7269\u63D0\u5347\u673A"
+    - Name: "\u5806\u579B\u673A"
+      Count: 5
+      PrefixID: AF
+      Sprite: {fileID: 21300000, guid: 23d401a67bf28b34cbc01292654b10b8, type: 3}
+      Type: "\u5806\u579B\u673A"
+      CustomID: 0
+      CustomIDStrings: []
+      m_SpritePath: "Thumbnails/\u5806\u579B\u673A"
+    - Name: RGV
+      Count: 2
+      PrefixID: AG
+      Sprite: {fileID: 21300000, guid: 1f7a5e5eabeb8164895e7d7da3bfdfb9, type: 3}
+      Type: RGV
+      CustomID: 0
+      CustomIDStrings: []
+      m_SpritePath: Thumbnails/RGV
+    - Name: "\u62C6\u76D8\u673A"
+      Count: 2
+      PrefixID: AH
+      Sprite: {fileID: 21300000, guid: f6df7571f8924d843888d16eb77b8ade, type: 3}
+      Type: "\u62C6\u76D8\u673A"
+      CustomID: 0
+      CustomIDStrings: []
+      m_SpritePath: "Thumbnails/\u62C6\u76D8\u673A"
+    - Name: "\u7801\u76D8\u673A"
+      Count: 2
+      PrefixID: AI
+      Sprite: {fileID: 21300000, guid: f6df7571f8924d843888d16eb77b8ade, type: 3}
+      Type: "\u7801\u76D8\u673A"
+      CustomID: 0
+      CustomIDStrings: []
+      m_SpritePath: "Thumbnails/\u62C6\u76D8\u673A"

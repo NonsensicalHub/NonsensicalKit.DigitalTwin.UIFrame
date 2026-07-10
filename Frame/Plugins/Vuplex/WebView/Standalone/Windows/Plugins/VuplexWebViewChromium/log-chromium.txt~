@@ -1,0 +1,13 @@
+[0506/111755.193:ERROR:backend_impl.cc(2020)] Invalid file version or magic
+[0507/142432.290:ERROR:gpu_init.cc(446)] Passthrough is not supported, GL is disabled, ANGLE is 
+[0508/155035.920:WARNING:task_impl.cc(32)] No task runner for threadId 0
+[0509/101757.039:ERROR:gpu_init.cc(446)] Passthrough is not supported, GL is disabled, ANGLE is 
+[0518/091824.173:WARNING:task_impl.cc(32)] No task runner for threadId 0
+[0518/092828.347:ERROR:gpu_init.cc(446)] Passthrough is not supported, GL is disabled, ANGLE is 
+[0520/091220.155:ERROR:gpu_init.cc(446)] Passthrough is not supported, GL is disabled, ANGLE is 
+[0521/101433.938:ERROR:gpu_init.cc(446)] Passthrough is not supported, GL is disabled, ANGLE is 
+[0521/155908.988:WARNING:task_impl.cc(32)] No task runner for threadId 0
+[0525/091440.908:WARNING:task_impl.cc(32)] No task runner for threadId 0
+[0608/173903.055:ERROR:gpu_init.cc(446)] Passthrough is not supported, GL is disabled, ANGLE is 
+[0703/140843.888:WARNING:task_impl.cc(32)] No task runner for threadId 0
+[0709/173634.301:ERROR:interface_endpoint_client.cc(659)] Message 3 rejected by interface blink.mojom.Widget
