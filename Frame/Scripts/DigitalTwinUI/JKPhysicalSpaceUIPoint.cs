@@ -45,6 +45,13 @@ public class JKPhysicalSpaceUIPoint : NonsensicalUI, IDigitalTwinUI
         _follow.SetTarget(point);
         _id = id;
         IOCC.AddListener<UIPoint>("registerUIPoint", RegisterUIPoint);
+
+        // 若 UIPoint 已先注册到 Manager，立即绑定，不再只依赖后续 Set
+        if (ServiceCore.TryGet<DigitalTwinUIManager>(out var manager) &&
+            manager.TryGetUIPoint(_id, out var uiPoint))
+        {
+            RegisterUIPoint(uiPoint);
+        }
     }
 
     private void RegisterUIPoint(UIPoint uiPoints)
